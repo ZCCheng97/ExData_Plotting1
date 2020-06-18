@@ -1,0 +1,12 @@
+table <- read.table("household_power_consumption.txt", sep = ";", header = T, stringsAsFactors = F)
+newtab <- table[table$Date %in% c("1/2/2007","2/2/2007"),]
+newtab$datetime <- paste(newtab$Date,newtab$Time)
+newtab$Date <- strptime(newtab$datetime,format = "%d/%m/%Y %H:%M:%S")
+Sub_metering_1 <- na.omit(as.numeric(newtab$Sub_metering_1))
+Sub_metering_2 <- na.omit(as.numeric(newtab$Sub_metering_2))
+Sub_metering_3 <- na.omit(as.numeric(newtab$Sub_metering_3))
+plot(x= newtab$Date, y = Sub_metering_1, type = "n", ylab = "Energy sub metering", xlab = "")
+lines(x= newtab$Date, y = Sub_metering_1, col = "black")
+lines(x= newtab$Date, y = Sub_metering_2, col = "red")
+lines(x= newtab$Date, y = Sub_metering_3, col = "blue")
+legend("topright",lty = 1,col = c("black", "red", "blue"),legend = c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"))
